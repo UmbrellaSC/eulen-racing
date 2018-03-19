@@ -25,8 +25,7 @@ public class CarController : MonoBehaviour
     /// Die Komponente die dem Auto-Objekt physikalische 
     /// Eigenschaften verleiht.
     /// </summary>
-    [HideInInspector]
-    private Rigidbody _rigidbody;
+    public Rigidbody CarRigidbody;
     
     private Renderer _renderer;
 
@@ -36,7 +35,7 @@ public class CarController : MonoBehaviour
     public List<AxisInfo> CarAxes = new List<AxisInfo>();
 
     /// <summary>
-    /// Die maximale Beschleunigung des Motors
+    /// Die maximale Beschleunigung des Autos
     /// </summary>
     public Single MaxMotorTorque;
 
@@ -44,6 +43,11 @@ public class CarController : MonoBehaviour
     /// Die maximale Auslenkung der Räder
     /// </summary>
     public Single MaxSteerAngle;
+
+    /// <summary>
+    /// Wie stark die Räder abbremsen können
+    /// </summary>
+    public Single BrakeTorque;
 
     /// <summary>
     /// Das Gewicht des Autos
@@ -66,12 +70,11 @@ public class CarController : MonoBehaviour
     public Material CarMaterial;
 
     /// <summary>
-    /// Die momentane Geschwindigkeit des Autos
+    /// Die Komponente die das Auto auf dem Bildschirm anzeigt
     /// </summary>
-    public Single Speed
-    {
-        get { return _rigidbody.velocity.magnitude; }
-    }
+    public Renderer CarRenderer;
+
+    public Transform CenterOfMass;
 
 	/// <summary>
     /// Initialisierung des Autos
@@ -79,9 +82,7 @@ public class CarController : MonoBehaviour
 	void Start ()
     {
         // Komponenten aus der Struktur des GameObjects finden
-        _rigidbody = GetComponent<Rigidbody>();
-        _renderer = gameObject.GetComponentsInChildren<Renderer>().FirstOrDefault(r => r.name == "Body");
-        _renderer.materials[0] = Instantiate(CarMaterial);
+        CarRenderer.materials[0] = Instantiate(CarMaterial);
 
         // Alle Werte auf 0 setzen
         for (Int32 i = 0; i < CarAxes.Count; i++)
@@ -98,35 +99,77 @@ public class CarController : MonoBehaviour
     /// </summary>
 	void Update ()
     {
-        // Jede Eingabeachse kann Werte von -1 bis 1 annehmen. Durch das Multiplizieren mit dem
-        // Maximalwert erhält man eine Abstufung von Geschwindigkeit und Auslenkung
-        Single steerAngle = MaxSteerAngle * Input.GetAxis("Horizontal_" + Type);
-        Single motorTorque = MaxMotorTorque * Input.GetAxis("Vertical_" + Type);
-
         // Durch alle Achsen iterieren
         for (Int32 i = 0; i < CarAxes.Count; i++)
         {
+            // Jede Eingabeachse kann Werte von -1 bis 1 annehmen. Durch das Multiplizieren mit dem
+            // Maximalwert erhält man eine Abstufung von Geschwindigkeit und Auslenkung
+            Single steerAngle = MaxSteerAngle * Input.GetAxis("Horizontal_" + Type);
+            Single motorTorque = MaxMotorTorque * Input.GetAxis("Vertical_" + Type);
+            Single brakeTorque = BrakeTorque;
+
             // Ist die Achse mit dem Motor verbunden?
-            if (CarAxes[i].Powered)
+            if (!CarAxes[i].Powered)
             {
                 // Beschleunigung aktualisieren
-                CarAxes[i].Left.motorTorque = motorTorque;
-                CarAxes[i].Right.motorTorque = motorTorque;
+                motorTorque *= 0;
+                brakeTorque *= 0;
             }
 
             // Ist die Achse lenkbar?
-            if (CarAxes[i].Steerable)
+            if (!CarAxes[i].Steerable)
             {
-                CarAxes[i].Left.steerAngle = steerAngle;
-                CarAxes[i].Right.steerAngle = steerAngle;
+                steerAngle *= 0;
             }
+
+            ApplyInput(CarAxes[i].Left, motorTorque, steerAngle, brakeTorque);
+            ApplyInput(CarAxes[i].Right, motorTorque, steerAngle, brakeTorque);
         }
 
         // Farbe des Autos einstellen
-        _renderer.materials[0].color = Color;
+        CarRenderer.materials[0].color = Color;
 
         // Gewicht des Autos einstellen
-        _rigidbody.mass = Mass;
+        CarRigidbody.mass = Mass;
+        CarRigidbody.centerOfMass = CenterOfMass.localPosition;
+    }
+
+    public Single GetSpeed(WheelCollider collider)
+    {
+        return Mathf.Round((Mathf.PI * 2 * collider.radius) * collider.rpm * 60 / 1000);
+    }
+
+    public void ApplyInput(WheelCollider collider, Single motorTorque, Single steerAngle, Single brakeTorque)
+    {
+        Single speed = GetSpeed(collider);
+        Boolean braking = false;
+        if ((speed > 0 && motorTorque <= 0) || (speed < 0 && motorTorque >= 0))
+        {
+            braking = true;
+        }
+        else
+        {
+            braking = false;
+            collider.brakeTorque = 0f;
+        }
+        if (Mathf.Abs(speed) < 0.2f)
+        {
+            braking = false;
+            collider.motorTorque = 0;
+            collider.brakeTorque = 0;
+        }
+
+        if (!braking)
+        {
+            collider.motorTorque = motorTorque;            
+        }
+        else
+        {
+            collider.brakeTorque = brakeTorque;
+            collider.motorTorque = 0f;
+        }
+
+        collider.steerAngle = steerAngle;
     }
 
     /// <summary>
