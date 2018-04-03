@@ -76,6 +76,28 @@ public class CarController : MonoBehaviour
 
     public Transform CenterOfMass;
 
+    /// <summary>
+    /// Gibt die durchschnittliche Geschwindigkeit aller angetriebenen Räder zurück
+    /// </summary>
+    public Single Speed
+    {
+        get
+        {
+            Single _speed = 0;
+            Int32 count = 0;
+            for (Int32 i = 0; i < CarAxes.Count; i++)
+            {
+                if (CarAxes[i].Powered)
+                {
+                    _speed += GetSpeed(CarAxes[i].Left);
+                    _speed += GetSpeed(CarAxes[i].Right);
+                    count += 2;
+                }
+            }
+            return _speed / count;
+        }
+    }
+
 	/// <summary>
     /// Initialisierung des Autos
     /// </summary>

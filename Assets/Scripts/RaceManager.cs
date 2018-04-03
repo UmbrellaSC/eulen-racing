@@ -22,7 +22,7 @@ public class RaceManager : MonoBehaviour {
     /// <summary>
     /// Die momentane Runde des Autos
     /// </summary>
-    private Int32 _currentRound;
+    public Int32 CurrentRound;
 
     /// <summary>
     /// Die Zeit zu der das Rennen gestartet wurde
@@ -57,7 +57,6 @@ public class RaceManager : MonoBehaviour {
             Int32 i = l;
             Checkpoints[i].Callback += (e) =>
             {
-                Debug.Log(i + "!");
                 Int32 current = i;
                 if (current > Checkpoints.Count)
                 {
@@ -67,13 +66,13 @@ public class RaceManager : MonoBehaviour {
                 {
                     if (current == 0)
                     {
-                        if (_currentRound == Rounds)
+                        if (CurrentRound == Rounds)
                         {
                             isRacing = false;
                             RaceFinished?.Invoke();
                             return;
                         }
-                        _currentRound++;
+                        CurrentRound++;
                     }
                     _nextCheckpoint++;
                 }
@@ -85,15 +84,17 @@ public class RaceManager : MonoBehaviour {
                 {
                     _nextCheckpoint++;
                 }
+
+                ((Behaviour)Checkpoints[i].GetComponent("Halo")).enabled = false;
+                ((Behaviour)Checkpoints[_nextCheckpoint].GetComponent("Halo")).enabled = true;
+
             };
+            ((Behaviour)Checkpoints[i].GetComponent("Halo")).enabled = false;
         }
+        ((Behaviour)Checkpoints[0].GetComponent("Halo")).enabled = true;
         _startTime = DateTime.Now;
         isRacing = true;
-        RaceFinished += () =>
-        {
-            Debug.Log("!!!!!einself!!");
-            Debug.Log(Time);
-        };
+        _nextCheckpoint = 0;
 	}
 	
 	// Update is called once per frame
