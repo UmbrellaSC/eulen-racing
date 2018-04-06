@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RaceManager : MonoBehaviour {
+public class RaceManager : MonoBehaviour 
+{
 
     /// <summary>
     /// Alle Checkpoints die das Auto passieren muss
@@ -47,7 +48,15 @@ public class RaceManager : MonoBehaviour {
         get { return _finishedTime - _startTime; }
     }
 
-    private Boolean isRacing;
+    /// <summary>
+    /// Gibt an ob das Rennen beendet wurde
+    /// </summary>
+    private Boolean _raceFinished;
+
+    /// <summary>
+    /// Gibt an ob das Rennen im Moment aktiv ist
+    /// </summary>
+    private Boolean _isRacing;
 
 	// Use this for initialization
 	void Start ()
@@ -57,32 +66,46 @@ public class RaceManager : MonoBehaviour {
             Int32 i = l;
             Checkpoints[i].Callback += (e) =>
             {
+                if (e.transform.parent != transform)
+                {
+                    return;
+                }
                 Int32 current = i;
                 if (current > Checkpoints.Count)
                 {
                     current -= Checkpoints.Count;
                 }
-                if (current == _nextCheckpoint)
+
+                if (!_raceFinished)
                 {
-                    if (current == 0)
-                    {
-                        if (CurrentRound == Rounds)
-                        {
-                            isRacing = false;
-                            RaceFinished?.Invoke();
-                            return;
-                        }
-                        CurrentRound++;
-                    }
-                    _nextCheckpoint++;
+                    _isRacing = true;
                 }
+
+                if (current != _nextCheckpoint)
+                {
+                    return;
+                }
+                if (current == 0)
+                {
+                    if (CurrentRound == 0)
+                    {
+                        // Startzeit aktualisieren
+                        _startTime = _finishedTime = DateTime.Now;
+                    }
+                    if (CurrentRound == Rounds)
+                    {
+                        _isRacing = false;
+                        _raceFinished = true;
+                        RaceFinished?.Invoke();
+                        ((Behaviour)Checkpoints[i].GetComponent("Halo")).enabled = false;
+                        return;
+                    }
+                    CurrentRound++;
+                }
+                _nextCheckpoint++;
                 if (_nextCheckpoint == Checkpoints.Count)
                 {
                     _nextCheckpoint = 0;
-                }
-                else
-                {
-                    _nextCheckpoint++;
                 }
 
                 ((Behaviour)Checkpoints[i].GetComponent("Halo")).enabled = false;
@@ -92,15 +115,13 @@ public class RaceManager : MonoBehaviour {
             ((Behaviour)Checkpoints[i].GetComponent("Halo")).enabled = false;
         }
         ((Behaviour)Checkpoints[0].GetComponent("Halo")).enabled = true;
-        _startTime = DateTime.Now;
-        isRacing = true;
         _nextCheckpoint = 0;
 	}
 	
 	// Update is called once per frame
 	void Update ()
     {
-        if (isRacing)
+        if (_isRacing && !GlobalState.Paused)
         {
             _finishedTime = DateTime.Now;
         }

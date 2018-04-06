@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 114383949656152284}
   - component: {fileID: 122694616845623650}
   m_Layer: 0
-  m_Name: Checkpoint
+  m_Name: Checkpoint P2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -75,5 +75,5 @@ Halo:
   m_Enabled: 1
   m_Color:
     serializedVersion: 2
-    rgba: 4294950912
+    rgba: 4278190254
   m_Size: 10

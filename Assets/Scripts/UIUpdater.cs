@@ -30,6 +30,5 @@ public class UIUpdater : MonoBehaviour
         speedDisplay.text = (Int32) (controller.CarRigidbody.velocity.magnitude) + " km/h";
         roundDisplay.text = manager.CurrentRound + "/" + manager.Rounds;
         timeDisplay.text = manager.Time.Minutes.ToString("00") + ":" + manager.Time.Seconds.ToString("00");
-        
 	}
 }

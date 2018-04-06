@@ -25,7 +25,7 @@ public class TriggerDetector : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (Callback != null)
+        if (other.gameObject.layer == gameObject.layer)
         {
             Callback(other);
         }

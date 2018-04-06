@@ -74,6 +74,9 @@ public class CarController : MonoBehaviour
     /// </summary>
     public Renderer CarRenderer;
 
+    /// <summary>
+    /// Das Massezentrum des Autos
+    /// </summary>
     public Transform CenterOfMass;
 
     /// <summary>
@@ -105,6 +108,16 @@ public class CarController : MonoBehaviour
     {
         // Komponenten aus der Struktur des GameObjects finden
         CarRenderer.materials[0] = Instantiate(CarMaterial);
+        
+        // Farbe aktualisieren
+        if (Type == InputType.Primary)
+        {
+            Color = GlobalState.PlayerAColor;
+        }
+        else
+        {
+            Color = GlobalState.PlayerBColor;
+        }
 
         // Alle Werte auf 0 setzen
         for (Int32 i = 0; i < CarAxes.Count; i++)
@@ -114,6 +127,11 @@ public class CarController : MonoBehaviour
             CarAxes[i].Right.steerAngle = 0f;
             CarAxes[i].Right.motorTorque = 0f;
         }
+        
+        // Cache erstellen
+        pausedBrakeTorque = new List<Single>();
+        pausedSteerAngle = new List<Single>();
+        pausedMotorTorque = new List<Single>();
 	}
 	
 	/// <summary>
@@ -144,6 +162,20 @@ public class CarController : MonoBehaviour
                 steerAngle *= 0;
             }
 
+            if (!GlobalState.Paused && wasPaused)
+            {
+                steerAngle = pausedSteerAngle[i];
+                motorTorque = pausedMotorTorque[i];
+                brakeTorque = pausedBrakeTorque[i];
+            }
+
+            if (GlobalState.Paused && !wasPaused)
+            {
+                pausedSteerAngle.Add(steerAngle);
+                pausedMotorTorque.Add(motorTorque);
+                pausedBrakeTorque.Add(brakeTorque);
+            }
+
             ApplyInput(CarAxes[i].Left, motorTorque, steerAngle, brakeTorque);
             ApplyInput(CarAxes[i].Right, motorTorque, steerAngle, brakeTorque);
         }
@@ -154,7 +186,29 @@ public class CarController : MonoBehaviour
         // Gewicht des Autos einstellen
         CarRigidbody.mass = Mass;
         CarRigidbody.centerOfMass = CenterOfMass.localPosition;
+        
+        // Pause?
+        if (!GlobalState.Paused && wasPaused)
+        {
+            CarRigidbody.isKinematic = false;
+            wasPaused = false;
+            pausedSteerAngle.Clear();
+            pausedBrakeTorque.Clear();
+            pausedMotorTorque.Clear();
+        }
+
+        if (GlobalState.Paused && !wasPaused)
+        {
+            wasPaused = true;
+            CarRigidbody.isKinematic = true;
+        }
     }
+
+    // Zwischengespeicherte Werte für die pausierung des Spiels
+    private Boolean wasPaused;
+    private List<Single> pausedMotorTorque;
+    private List<Single> pausedBrakeTorque;
+    private List<Single> pausedSteerAngle;
 
     public Single GetSpeed(WheelCollider collider)
     {
