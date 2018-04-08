@@ -117,6 +117,8 @@ public class RaceManager : MonoBehaviour
         ((Behaviour)Checkpoints[0].GetComponent("Halo")).enabled = true;
         _nextCheckpoint = 0;
 	}
+    
+    
 	
 	// Update is called once per frame
 	void Update ()
@@ -124,6 +126,12 @@ public class RaceManager : MonoBehaviour
         if (_isRacing && !GlobalState.Paused)
         {
             _finishedTime = DateTime.Now;
+        }
+
+        if (_isRacing && GlobalState.Paused)
+        {
+            _startTime = _startTime.AddSeconds(UnityEngine.Time.deltaTime);
+            _finishedTime = _finishedTime.AddSeconds(UnityEngine.Time.deltaTime);
         }
 #if NERVIGE_KINDER
         Debug.Log(187);
