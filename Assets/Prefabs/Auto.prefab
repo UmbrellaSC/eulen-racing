@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4372613595731770}
   - component: {fileID: 146056856002214474}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RHRC
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 33424597811032386}
   - component: {fileID: 23663210245471856}
   - component: {fileID: 114526275555833912}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RVR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56,7 +56,7 @@ GameObject:
   - component: {fileID: 33086291684976746}
   - component: {fileID: 23166967299806250}
   - component: {fileID: 114090536395065126}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RHL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 33738890163512282}
   - component: {fileID: 23542258630818506}
   - component: {fileID: 114008684507766202}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RHR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89,7 +89,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4241897239676338}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: CenterOfMass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -105,7 +105,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4829541862713210}
   - component: {fileID: 146783525523975584}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RVRC
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -121,7 +121,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4167296475998900}
   - component: {fileID: 146296544571742878}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RVLC
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -139,7 +139,7 @@ GameObject:
   - component: {fileID: 33031766634402258}
   - component: {fileID: 23707539605757988}
   - component: {fileID: 114588163681230618}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RVL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -155,7 +155,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4911239606500676}
   - component: {fileID: 146801073937305932}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RHLC
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -173,7 +173,7 @@ GameObject:
   - component: {fileID: 33358376257848162}
   - component: {fileID: 23827756338985414}
   - component: {fileID: 64978027976119450}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -192,7 +192,7 @@ GameObject:
   - component: {fileID: 114379625490438710}
   - component: {fileID: 114674163197871168}
   - component: {fileID: 114617614894876580}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Auto
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -604,6 +604,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Collider: {fileID: 146056856002214474}
+  CarRigidbody: {fileID: 0}
 --- !u!114 &114090536395065126
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -616,6 +617,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Collider: {fileID: 146801073937305932}
+  CarRigidbody: {fileID: 0}
 --- !u!114 &114379625490438710
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -658,6 +660,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Collider: {fileID: 146783525523975584}
+  CarRigidbody: {fileID: 0}
 --- !u!114 &114588163681230618
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -670,6 +673,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Collider: {fileID: 146296544571742878}
+  CarRigidbody: {fileID: 0}
 --- !u!114 &114617614894876580
 MonoBehaviour:
   m_ObjectHideFlags: 1

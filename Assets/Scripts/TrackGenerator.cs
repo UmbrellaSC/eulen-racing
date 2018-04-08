@@ -63,6 +63,11 @@ public class TrackGenerator : MonoBehaviour
 	private List<GameObject> _street;
 
 	/// <summary>
+	/// Die Instanz der Minimap
+	/// </summary>
+	public Minimap Minimap;
+
+	/// <summary>
 	/// Generiert die Checkpoints der Strecke 
 	/// </summary>
 	void Start()
@@ -177,6 +182,12 @@ public class TrackGenerator : MonoBehaviour
 			// Die Kreuzung etwas anheben, sodass sie über den anderen Streckenelementen rendert
 			crossing.transform.Translate(0, 0.001f, 0);
 		}
+		
+		// Minimap korrekt positionieren
+		List<Vector3> _points = new List<Vector3>(points);
+		_points.Add(StartPoint.position);
+		Minimap.Center = CenterOfVectors(_points.ToArray());
+		Minimap.Radius = _points.Max(p => (p - Minimap.Center).magnitude);
 	}
 
 	/// <summary>
