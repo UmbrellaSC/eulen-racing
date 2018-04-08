@@ -210,16 +210,24 @@ public class CarController : MonoBehaviour
     private List<Single> pausedBrakeTorque;
     private List<Single> pausedSteerAngle;
 
+    /// <summary>
+    /// Berechnet die Geschwindigkeit mit der sich das spezifizierte Rad des Autos dreht
+    /// </summary>
     public Single GetSpeed(WheelCollider collider)
     {
         return Mathf.Round((Mathf.PI * 2 * collider.radius) * collider.rpm * 60 / 1000);
     }
 
+    /// <summary>
+    /// Wendet die Eingaben des Benutzers auf die Räder des Autos an
+    /// </summary>
     public void ApplyInput(WheelCollider collider, Single motorTorque, Single steerAngle, Single brakeTorque)
     {
         Single speed = GetSpeed(collider);
-        Boolean braking = false;
-        if ((speed > 0 && motorTorque <= 0) || (speed < 0 && motorTorque >= 0))
+        Boolean braking;
+        
+        // Ist das Auto dabei zu bremsen?
+        if (speed > 0 && motorTorque <= 0 || speed < 0 && motorTorque >= 0)
         {
             braking = true;
         }
@@ -228,10 +236,26 @@ public class CarController : MonoBehaviour
             braking = false;
             collider.brakeTorque = 0f;
         }
+        
+        // Wenn die Geschwindigkeit des Autos zu gering ist, nicht mehr bremsen
         if (Mathf.Abs(speed) < 0.2f)
         {
             braking = false;
             collider.motorTorque = 0;
+            collider.brakeTorque = 0;
+        }
+        
+        // Wenn das Auto gegen einen Baum gefahren ist, bleibt das Momentum erhalten, es kann aber nicht weiterfahren
+        // Das führt dazu, dass man erst einmal eine Zeitlang in die Gegenrichtung steuern muss bis sich das 
+        // Auto wieder bewegt. Um das zu kompensieren setzen wird die Bremskraft auf den höchstmöglichen Wert, wenn 
+        // die Geschwindigkeit 0 ist und der Benutzer keine Eingabe macht
+        if (CarRigidbody.velocity.magnitude < 0.1f && Mathf.Abs(motorTorque / MaxMotorTorque) < 0.01f)
+        {
+            braking = false;
+            collider.brakeTorque = Single.MaxValue;
+        }
+        else 
+        {
             collider.brakeTorque = 0;
         }
 

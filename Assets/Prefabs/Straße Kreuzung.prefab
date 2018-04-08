@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4932904037552850}
   - component: {fileID: 65551914901886244}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: "Stra\xDFe Kreuzung"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37,7 +37,7 @@ GameObject:
   - component: {fileID: 4658954492525098}
   - component: {fileID: 33663724150921356}
   - component: {fileID: 23317197876012546}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}

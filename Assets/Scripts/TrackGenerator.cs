@@ -68,13 +68,11 @@ public class TrackGenerator : MonoBehaviour
 	void Start()
 	{
 		Random.InitState(GlobalState.Seed.GetHashCode());
-		Debug.Log(GlobalState.Seed.GetHashCode());
 		_street = new List<GameObject>();
 		Int32 rounds = Random.Range(1, 5);
-		Debug.Log(rounds);
 
 		// Anzahl an Checkpoints
-		Int32 checkpoints = Random.Range(4, 8);
+		Int32 checkpoints = Random.Range(4, 5);
 		Vector3[] points = new Vector3[checkpoints];
 
 		for (Int32 i = 0; i < checkpoints; i++)
@@ -82,21 +80,14 @@ public class TrackGenerator : MonoBehaviour
 			Vector3 point = Random.onUnitSphere * Random.Range(MinRadius, MaxRadius);
 			Vector3 position = new Vector3(point.x, 0, point.y);
 
-			// Keine Punkte zulassen die näher als 50 meter sind
-			if (points.Any(p => (Center.InverseTransformPoint(p) - position).magnitude < 50))
-			{
-				i--;
-				continue;
-			}
-
 			// Keine Punkte zulassen die aufeinander folgen und eine Ebene teilen
-			if (points.Any(p => Math.Abs(Center.InverseTransformPoint(p).x - position.x) < 50 ||
-			                    Math.Abs(Center.InverseTransformPoint(p).z - position.z) < 50))
+			if (points.Any(p =>
+				Math.Abs(Center.InverseTransformPoint(p).x - position.x) < 50 ||
+				Math.Abs(Center.InverseTransformPoint(p).z - position.z) < 50))
 			{
 				i--;
 				continue;
 			}
-			Debug.Log(i);
 
 			// Checkpoint erstellen
 			for (Int32 j = 0; j < Managers.Count; j++)
@@ -106,7 +97,6 @@ public class TrackGenerator : MonoBehaviour
 				points[i] = checkpoint.transform.position;
 				Managers[j].Checkpoints.Add(checkpoint.GetComponent<TriggerDetector>());
 				Managers[j].Rounds = rounds;
-				Debug.Log("J: " + j);
 			}
 		}
 
@@ -184,7 +174,7 @@ public class TrackGenerator : MonoBehaviour
 			GameObject crossing = Instantiate(CrossingPrefab);
 			crossing.transform.position = crossingPoints[i];
 			
-			// Das Objekt leicht erhöhen, sodass es über den restlichen Elemented rendert
+			// Die Kreuzung etwas anheben, sodass sie über den anderen Streckenelementen rendert
 			crossing.transform.Translate(0, 0.001f, 0);
 		}
 	}

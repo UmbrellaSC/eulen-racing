@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44402024, g: 0.49342084, b: 0.57287675, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -688,12 +688,12 @@ Light:
   serializedVersion: 8
   m_Type: 1
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 1
+  m_Intensity: 1.2
   m_Range: 10
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 2
+    m_Type: 1
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -720,13 +720,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 530807507}
-  m_LocalRotation: {x: 0.6196334, y: 0.3554924, z: 0.036469854, w: 0.69882023}
+  m_LocalRotation: {x: 0.61961347, y: 0.35552233, z: 0.03643701, w: 0.6988243}
   m_LocalPosition: {x: 60.6, y: 103.1, z: -61.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 57.15, y: 92.18101, z: 64.976006}
+  m_LocalEulerAnglesHint: {x: 57.15, y: 92.18, z: 64.97}
 --- !u!1 &645615926
 GameObject:
   m_ObjectHideFlags: 0
@@ -986,8 +986,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Center: {fileID: 2006049176}
-  MinRadius: 220
-  MaxRadius: 150
+  MinRadius: 120
+  MaxRadius: 220
   Managers:
   - {fileID: 2074049554}
   CheckpointPrefab:
@@ -1387,7 +1387,6 @@ GameObject:
   - component: {fileID: 1133501434}
   - component: {fileID: 1133501433}
   - component: {fileID: 1133501437}
-  - component: {fileID: 1133501438}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -1430,7 +1429,7 @@ Camera:
   field of view: 60
   orthographic: 0
   orthographic size: 5
-  m_Depth: -1
+  m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -1474,14 +1473,6 @@ MonoBehaviour:
   Distance: 20
   SpeedDamping: 1
   Target: {fileID: 2074049558}
---- !u!45 &1133501438
-Skybox:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1133501432}
-  m_Enabled: 1
-  m_CustomSkybox: {fileID: 2100000, guid: e222162ddb8d34547a133b673221b195, type: 2}
 --- !u!1 &1231765276
 GameObject:
   m_ObjectHideFlags: 0
@@ -2136,9 +2127,138 @@ Prefab:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 90
       objectReference: {fileID: 0}
+    - target: {fileID: 114379625490438710, guid: 14a7b8188e2da42a39b386859c25ee4e,
+        type: 2}
+      propertyPath: BrakeTorque
+      value: 3e+28
+      objectReference: {fileID: 0}
+    - target: {fileID: 4241897239676338, guid: 14a7b8188e2da42a39b386859c25ee4e, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -0.72
+      objectReference: {fileID: 0}
+    - target: {fileID: 114379625490438710, guid: 14a7b8188e2da42a39b386859c25ee4e,
+        type: 2}
+      propertyPath: MaxMotorTorque
+      value: 100000000
+      objectReference: {fileID: 0}
+    - target: {fileID: 114379625490438710, guid: 14a7b8188e2da42a39b386859c25ee4e,
+        type: 2}
+      propertyPath: MaxBrakeTorque
+      value: 450
+      objectReference: {fileID: 0}
+    - target: {fileID: 146801073937305932, guid: 14a7b8188e2da42a39b386859c25ee4e,
+        type: 2}
+      propertyPath: m_Radius
+      value: 1.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 146801073937305932, guid: 14a7b8188e2da42a39b386859c25ee4e,
+        type: 2}
+      propertyPath: m_SuspensionDistance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 146801073937305932, guid: 14a7b8188e2da42a39b386859c25ee4e,
+        type: 2}
+      propertyPath: m_WheelDampingRate
+      value: 0.0001
+      objectReference: {fileID: 0}
+    - target: {fileID: 114379625490438710, guid: 14a7b8188e2da42a39b386859c25ee4e,
+        type: 2}
+      propertyPath: MaxSteerAngle
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 114379625490438710, guid: 14a7b8188e2da42a39b386859c25ee4e,
+        type: 2}
+      propertyPath: Mass
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 146801073937305932, guid: 14a7b8188e2da42a39b386859c25ee4e,
+        type: 2}
+      propertyPath: m_ForceAppPointDistance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 146056856002214474, guid: 14a7b8188e2da42a39b386859c25ee4e,
+        type: 2}
+      propertyPath: m_ForceAppPointDistance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 146056856002214474, guid: 14a7b8188e2da42a39b386859c25ee4e,
+        type: 2}
+      propertyPath: m_SuspensionDistance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 146056856002214474, guid: 14a7b8188e2da42a39b386859c25ee4e,
+        type: 2}
+      propertyPath: m_WheelDampingRate
+      value: 0.0001
+      objectReference: {fileID: 0}
+    - target: {fileID: 146296544571742878, guid: 14a7b8188e2da42a39b386859c25ee4e,
+        type: 2}
+      propertyPath: m_SuspensionDistance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 146296544571742878, guid: 14a7b8188e2da42a39b386859c25ee4e,
+        type: 2}
+      propertyPath: m_ForceAppPointDistance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 146296544571742878, guid: 14a7b8188e2da42a39b386859c25ee4e,
+        type: 2}
+      propertyPath: m_WheelDampingRate
+      value: 0.0001
+      objectReference: {fileID: 0}
+    - target: {fileID: 146783525523975584, guid: 14a7b8188e2da42a39b386859c25ee4e,
+        type: 2}
+      propertyPath: m_SuspensionDistance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 146783525523975584, guid: 14a7b8188e2da42a39b386859c25ee4e,
+        type: 2}
+      propertyPath: m_ForceAppPointDistance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 146783525523975584, guid: 14a7b8188e2da42a39b386859c25ee4e,
+        type: 2}
+      propertyPath: m_WheelDampingRate
+      value: 0.0001
+      objectReference: {fileID: 0}
+    - target: {fileID: 54042549765198972, guid: 14a7b8188e2da42a39b386859c25ee4e,
+        type: 2}
+      propertyPath: m_Drag
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 54042549765198972, guid: 14a7b8188e2da42a39b386859c25ee4e,
+        type: 2}
+      propertyPath: m_AngularDrag
+      value: 0.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 114090536395065126, guid: 14a7b8188e2da42a39b386859c25ee4e,
+        type: 2}
+      propertyPath: CarRigidbody
+      value: 
+      objectReference: {fileID: 1678287182}
+    - target: {fileID: 114008684507766202, guid: 14a7b8188e2da42a39b386859c25ee4e,
+        type: 2}
+      propertyPath: CarRigidbody
+      value: 
+      objectReference: {fileID: 1678287182}
+    - target: {fileID: 114588163681230618, guid: 14a7b8188e2da42a39b386859c25ee4e,
+        type: 2}
+      propertyPath: CarRigidbody
+      value: 
+      objectReference: {fileID: 1678287182}
+    - target: {fileID: 114526275555833912, guid: 14a7b8188e2da42a39b386859c25ee4e,
+        type: 2}
+      propertyPath: CarRigidbody
+      value: 
+      objectReference: {fileID: 1678287182}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 14a7b8188e2da42a39b386859c25ee4e, type: 2}
   m_IsPrefabParent: 0
+--- !u!54 &1678287182 stripped
+Rigidbody:
+  m_PrefabParentObject: {fileID: 54042549765198972, guid: 14a7b8188e2da42a39b386859c25ee4e,
+    type: 2}
+  m_PrefabInternal: {fileID: 1678287181}
 --- !u!1 &1708458612
 GameObject:
   m_ObjectHideFlags: 0
