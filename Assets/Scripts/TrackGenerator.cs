@@ -187,7 +187,7 @@ public class TrackGenerator : MonoBehaviour
 		List<Vector3> _points = new List<Vector3>(points);
 		_points.Add(StartPoint.position);
 		Minimap.Center = CenterOfVectors(_points.ToArray());
-		Minimap.Radius = _points.Max(p => (p - Minimap.Center).magnitude);
+		Minimap.Radius = Math.Min(250f, _points.Max(p => (p - Minimap.Center).magnitude));
 	}
 
 	/// <summary>
